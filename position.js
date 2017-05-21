@@ -1,9 +1,9 @@
 (function(root){
-	var _scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-	var _scrollLeft = document.documentElement.scrollLeft || window.pageXOffset || document.body.scrollLeft;
-
-
+	
 	function getPosition(element) {
+		var _scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+		var _scrollLeft = document.documentElement.scrollLeft || window.pageXOffset || document.body.scrollLeft;
+
 		var rect = element.getBoundingClientRect();
 
 		// for ie <= 7, these two value will be 2
