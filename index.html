@@ -1,0 +1,259 @@
+<!DOCYTPE html>
+<html lang="en">
+<head>
+	<title>Position Test</title>
+
+	<style>
+		body {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		#box-1 {
+			width: 100px;
+			height: 100px;
+			border: 4px solid #999;
+			margin: 40px 90px;
+			padding: 10px 20px;
+		}
+
+		#wrapper {
+			position: absolute;
+			top: 200px;
+			left: 20px;
+			width: 400px;
+			height: 400px;
+			padding: 30px;
+			border-top: 10px solid #999;
+			border-left: 20px solid #999;
+			border-right: 10px solid #999;
+			border-bottom: 10px solid #999;
+			overflow: auto;
+		}
+
+		#box-2 {
+			width: 60px;
+			height: 60px;
+			border: 4px solid #999;
+			margin: 40px 90px;
+			padding: 20px;
+		}
+
+		#box-3 {
+			position: absolute;
+			top: 160px;
+			left: 60px;
+			width: 60px;
+			height: 60px;
+			border: 4px solid #999;
+			margin: 40px 90px;
+			padding: 20px;
+		}
+
+		#box-4 {
+			position: absolute;
+			top: 460px;
+			left: 60px;
+			width: 60px;
+			height: 60px;
+			border: 4px solid #999;
+			margin: 40px 90px;
+			padding: 20px;
+		}
+
+		#get-result {
+			position: fixed;
+			top: 10px;
+			right: 10px;
+			width: 120px;
+			height: 24px;
+			line-height: 24px;
+			text-align: center;
+			border: 1px solid #f63;
+			cursor: pointer;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="box-1">
+		box-1
+	</div>
+
+	<div id="wrapper">
+		<div id="box-2">
+			box-2
+		</div>
+		<div id="box-3">
+			box-3
+		</div>
+		<div id="box-4">
+			box-4
+		</div>
+	</div>
+
+	<div id="get-result">Get Result</div>
+	<script src="position.js"></script>
+	<script type="text/javascript">
+		var addEventHandler = function(element, type, callback){
+	        if(element.addEventListener){
+	            element.addEventListener(type, callback, false);
+	        } else if(element.attachEvent){
+	            element.attachEvent('on' + type, callback);
+	        } else {
+	            element['on' + type] = callback;
+	        }
+	    }
+
+		function validatePosition(element, absoluteValues, relativeValues, mbpValues) {
+			console.log('validate absolute');
+			var absolute = window.position.absolute(element);
+			console.assert(absolute.x === absoluteValues.x, 'x should be ' + absoluteValues.x + ', actual is ' + absolute.x);
+			console.assert(absolute.y === absoluteValues.y, 'y should be ' + absoluteValues.y + ', actual is ' + absolute.y);
+			console.assert(absolute.top === absoluteValues.top, 'top should be ' + absoluteValues.top + ', actual is ' + absolute.top);
+			console.assert(absolute.left === absoluteValues.left, 'left should be ' + absoluteValues.left + ', actual is ' + absolute.left);
+			console.assert(absolute.height === absoluteValues.height, 'height should be ' + absoluteValues.height + ', actual is ' + absolute.height);
+			console.assert(absolute.width === absoluteValues.width, 'width should be ' + absoluteValues.width + ', actual is ' + absolute.width);
+
+			console.log('validate relative');
+			var relative = window.position.relative(element);
+			console.assert(relative.x === relativeValues.x, 'x should be ' + relativeValues.x + ', actual is ' + relative.x);
+			console.assert(relative.y === relativeValues.y, 'y should be ' + relativeValues.y + ', actual is ' + relative.y);
+			console.assert(relative.top === relativeValues.top, 'top should be ' + relativeValues.top + ', actual is ' + relative.top);
+			console.assert(relative.left === relativeValues.left, 'left should be ' + relativeValues.left + ', actual is ' + relative.left);
+			console.assert(relative.height === relativeValues.height, 'height should be ' + relativeValues.height + ', actual is ' + relative.height);
+			console.assert(relative.width === relativeValues.width, 'width should be ' + relativeValues.width + ', actual is ' + relative.width);
+
+			console.log('validate mbp');
+			var mbp = window.position.mbp(element);
+			var margins = mbp.margins;
+			console.assert(margins[0] === mbpValues.margins[0], 'margin-top should be ' + mbpValues.margins[0] + ', actual is ' + margins[0]);
+			console.assert(margins[1] === mbpValues.margins[1], 'margin-left should be ' + mbpValues.margins[1] + ', actual is ' + margins[1]);
+			console.assert(margins[2] === mbpValues.margins[2], 'margin-bottom should be ' + mbpValues.margins[2] + ', actual is ' + margins[2]);
+			console.assert(margins[3] === mbpValues.margins[3], 'margin-right should be ' + mbpValues.margins[3] + ', actual is ' + margins[3]);
+			var borders = mbp.borders;
+			console.assert(borders[0] === mbpValues.borders[0], 'border-top should be ' + mbpValues.borders[0] + ', actual is ' + borders[0]);
+			console.assert(borders[1] === mbpValues.borders[1], 'border-left should be ' + mbpValues.borders[1] + ', actual is ' + borders[1]);
+			console.assert(borders[2] === mbpValues.borders[2], 'border-bottom should be ' + mbpValues.borders[2] + ', actual is ' + borders[2]);
+			console.assert(borders[3] === mbpValues.borders[3], 'border-right should be ' + mbpValues.borders[3] + ', actual is ' + borders[3]);
+			var paddings = mbp.paddings;
+			console.assert(paddings[0] === mbpValues.paddings[0], 'padding-top should be ' + mbpValues.paddings[0] + ', actual is ' + paddings[0]);
+			console.assert(paddings[1] === mbpValues.paddings[1], 'padding-left should be ' + mbpValues.paddings[1] + ', actual is ' + paddings[1]);
+			console.assert(paddings[2] === mbpValues.paddings[2], 'padding-bottom should be ' + mbpValues.paddings[2] + ', actual is ' + paddings[2]);
+			console.assert(paddings[3] === mbpValues.paddings[3], 'padding-right should be ' + mbpValues.paddings[3] + ', actual is ' + paddings[3]);
+		}
+
+		function processValidate() {
+			console.clear();
+
+			var _bodyScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+			var _bodyScrollLeft = document.documentElement.scrollLeft || window.pageXOffset || document.body.scrollLeft;
+
+			var wrapper = document.getElementById('wrapper');
+			var _wrapperScrollTop = wrapper.scrollTop;
+			var _wrapperScrollLeft = wrapper.scrollLeft;
+
+
+			var box_1 = document.getElementById('box-1');
+			console.log('validate box-1 position');
+			validatePosition(box_1, {
+				x: 90,
+				y: 40,
+				top: 40 - _bodyScrollTop,
+				left: 90 - _bodyScrollLeft,
+				width: 148,
+				height: 128
+			}, {
+				x: 90,
+				y: 40,
+				top: 40 - _bodyScrollTop,
+				left: 90 - _bodyScrollLeft,
+				width: 148,
+				height: 128
+			}, {
+				margins: [40, 90, 40, 90],
+				borders: [4, 4, 4, 4],
+				paddings: [10, 20, 10, 20]
+			});
+
+			console.log('');
+			console.log('');
+
+			var box_2 = document.getElementById('box-2');
+			console.log('validate box-2 position');
+			validatePosition(box_2, {
+				x: 160 - _wrapperScrollLeft,
+				y: 280 - _wrapperScrollTop,
+				top: 280 - _bodyScrollTop - _wrapperScrollTop,
+				left: 160 - _bodyScrollLeft - _wrapperScrollLeft,
+				width: 108,
+				height: 108
+			}, {
+				x: 160 - _wrapperScrollLeft,
+				y: 280 - _wrapperScrollTop,
+				top: 40 - _wrapperScrollTop,
+				left: 100 - _wrapperScrollLeft,
+				width: 108,
+				height: 108
+			}, {
+				margins: [40, 90, 40, 90],
+				borders: [4, 4, 4, 4],
+				paddings: [20, 20, 20, 20]
+			});
+
+			console.log('');
+			console.log('');
+
+			var box_3 = document.getElementById('box-3');
+			console.log('validate box-3 position');
+			validatePosition(box_3, {
+				x: 190 - _wrapperScrollLeft,
+				y: 410 - _wrapperScrollTop,
+				top: 410 - _bodyScrollTop - _wrapperScrollTop,
+				left: 190 - _bodyScrollLeft - _wrapperScrollLeft,
+				width: 108,
+				height: 108
+			}, {
+				x: 190 - _wrapperScrollLeft,
+				y: 410 - _wrapperScrollTop,
+				top: 170 - _wrapperScrollTop,
+				left: 130 - _wrapperScrollLeft,
+				width: 108,
+				height: 108
+			}, {
+				margins: [40, 90, 40, 90],
+				borders: [4, 4, 4, 4],
+				paddings: [20, 20, 20, 20]
+			});
+
+			console.log('');
+			console.log('');
+
+			var box_4 = document.getElementById('box-4');
+			console.log('validate box-4 position');
+			validatePosition(box_4, {
+				x: 190 - _wrapperScrollLeft,
+				y: 710 - _wrapperScrollTop,
+				top: 710 - _bodyScrollTop - _wrapperScrollTop,
+				left: 190 - _bodyScrollLeft - _wrapperScrollLeft,
+				width: 108,
+				height: 108
+			}, {
+				x: 190 - _wrapperScrollLeft,
+				y: 710 - _wrapperScrollTop,
+				top: 470 - _wrapperScrollTop,
+				left: 130 - _wrapperScrollLeft,
+				width: 108,
+				height: 108
+			}, {
+				margins: [40, 90, 40, 90],
+				borders: [4, 4, 4, 4],
+				paddings: [20, 20, 20, 20]
+			});
+		}
+		
+		addEventHandler(document.getElementById('get-result'), 'click', processValidate);
+
+	</script>
+</body>	
+</html>
