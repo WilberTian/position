@@ -87,10 +87,21 @@
 	    }
 	}
 
-	root.position = {
+	var _position = {
 		absolute: getPosition,
 		relative: getRelativePosition,
 		mbp: getElementMBP
 	};
+
+
+	if(typeof module !== 'undefined' && module.exports) {
+        module.exports = _position;
+    } else if(typeof define !== 'undefined' && define.amd) {
+        define('position', [], function() {
+            return _position;
+        })
+    } else {
+    	root.position = _position;
+    }
 })(window);
 
