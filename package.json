@@ -1,0 +1,13 @@
+{
+  "name": "position",
+  "version": "0.0.1",
+  "description": "A simple JS lib to get dom element's position/offset/mbp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WilberTian/position"
+  },
+  "author": "WilberTian",
+  "license": "MIT",
+  "dependencies": {
+  }
+}
